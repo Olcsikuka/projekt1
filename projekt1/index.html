@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="hu" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Csend Masszázs – Masszázsszalon Zalaegerszegen</title>
+    <meta name="description" content="Csend Masszázs – Professzionális masszázsszalon Zalaegerszegen. Svéd masszázs, mélyszöveti, relaxáló és sport masszázs. Foglaljon időpontot!">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --cream:      #F7F5F0;
+            --forest:     #1D2117;
+            --sage:       #4A6741;
+            --sage-mid:   #8AA882;
+            --sage-light: #E8EDE6;
+            --sage-mist:  #C4D1BF;
+            --muted:      #6B7264;
+            --border:     #DDE4D9;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--cream);
+            color: var(--forest);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 400;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-display { font-family: 'Cormorant Garamond', serif; }
+
+        /* ── Nav ── */
+        #navbar { transition: background 0.3s, box-shadow 0.3s; }
+        #navbar.scrolled {
+            background: rgba(247,245,240,0.92);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 1px 0 var(--border);
+        }
+        .nav-link { position: relative; padding-bottom: 2px; }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 1px;
+            background: var(--sage);
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after { width: 100%; }
+
+        /* ── Hero orbs ── */
+        @keyframes breathe {
+            0%, 100% { opacity: .55; transform: scale(1); }
+            50%       { opacity: .75; transform: scale(1.04); }
+        }
+        .orb { animation: breathe 9s ease-in-out infinite; }
+        .orb-2 { animation-delay: 4.5s; }
+
+        /* ── Reveal on scroll ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity .7s ease, transform .7s ease;
+        }
+        .reveal.visible { opacity: 1; transform: none; }
+
+        /* ── Cards ── */
+        .service-card {
+            transition: transform .3s ease, box-shadow .3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 44px rgba(29,33,23,.09);
+        }
+
+        /* ── Gallery ── */
+        .gal-item { overflow: hidden; }
+        .gal-item img { transition: transform .65s ease; display: block; }
+        .gal-item:hover img { transform: scale(1.06); }
+
+        /* ── Section label ── */
+        .label {
+            font-family: 'DM Sans', sans-serif;
+            font-size: .68rem;
+            font-weight: 500;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--sage);
+        }
+
+        /* ── Reduced motion ── */
+        @media (prefers-reduced-motion: reduce) {
+            .orb, .service-card, .gal-item img, .reveal {
+                animation: none !important;
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50">
+    <div class="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between">
+
+        <a href="#fooldal" class="flex items-center gap-3 cursor-pointer">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#4A6741" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+            </svg>
+            <span class="font-display text-xl font-medium tracking-wide" style="color:var(--forest)">Csend Masszázs</span>
+        </a>
+
+        <div class="hidden md:flex items-center gap-8">
+            <a href="#szolgaltatasok" class="nav-link text-sm cursor-pointer transition-colors duration-200" style="color:var(--muted)">Szolgáltatások</a>
+            <a href="#rolunk"         class="nav-link text-sm cursor-pointer transition-colors duration-200" style="color:var(--muted)">Rólunk</a>
+            <a href="#arak"           class="nav-link text-sm cursor-pointer transition-colors duration-200" style="color:var(--muted)">Árak</a>
+            <a href="#galeria"        class="nav-link text-sm cursor-pointer transition-colors duration-200" style="color:var(--muted)">Galéria</a>
+            <a href="#kapcsolat" class="text-sm font-medium text-white px-5 py-2.5 rounded-full cursor-pointer transition-colors duration-200" style="background:var(--sage)" onmouseover="this.style.background='var(--forest)'" onmouseout="this.style.background='var(--sage)'">Időpontfoglalás</a>
+        </div>
+
+        <button id="burger" class="md:hidden cursor-pointer p-2" aria-label="Menü" style="color:var(--forest)">
+            <svg id="ico-menu"  width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6"  x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+            <svg id="ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="hidden"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden border-t" style="border-color:var(--border);background:var(--cream)">
+        <div class="max-w-6xl mx-auto px-6 py-6 flex flex-col gap-5">
+            <a href="#szolgaltatasok" onclick="closeMenu()" class="font-medium cursor-pointer" style="color:var(--forest)">Szolgáltatások</a>
+            <a href="#rolunk"         onclick="closeMenu()" class="font-medium cursor-pointer" style="color:var(--forest)">Rólunk</a>
+            <a href="#arak"           onclick="closeMenu()" class="font-medium cursor-pointer" style="color:var(--forest)">Árak</a>
+            <a href="#galeria"        onclick="closeMenu()" class="font-medium cursor-pointer" style="color:var(--forest)">Galéria</a>
+            <a href="#kapcsolat"      onclick="closeMenu()" class="text-center text-white font-medium px-5 py-3 rounded-full cursor-pointer" style="background:var(--sage)">Időpontfoglalás</a>
+        </div>
+    </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section id="fooldal" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="orb     absolute top-1/4  right-1/3 w-[420px] h-[420px] rounded-full blur-3xl" style="background:var(--sage-light);opacity:.6"></div>
+        <div class="orb orb-2 absolute bottom-1/3 left-1/4  w-[280px] h-[280px] rounded-full blur-2xl" style="background:var(--sage-mist);opacity:.45"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl mx-auto px-6 text-center pt-28 pb-16">
+        <p class="label mb-8">Zalaegerszeg · Masszázsszalon</p>
+
+        <h1 class="font-display font-light leading-none tracking-tight mb-8" style="font-size:clamp(3.5rem,10vw,7.5rem);color:var(--forest)">
+            A pihenés<br>
+            <em style="color:var(--sage)">művészete.</em>
+        </h1>
+
+        <p class="text-lg md:text-xl font-light leading-relaxed max-w-xl mx-auto mb-12" style="color:var(--muted)">
+            Professzionális masszázsszalon Zalaegerszeg szívében. Hagyd, hogy a kezek visszaadják tested és lelked egyensúlyát.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a href="#kapcsolat"
+               class="text-sm font-medium text-white px-8 py-4 rounded-full cursor-pointer transition-colors duration-200"
+               style="background:var(--sage)"
+               onmouseover="this.style.background='var(--forest)'"
+               onmouseout="this.style.background='var(--sage)'">
+                Foglaljon időpontot
+            </a>
+            <a href="#szolgaltatasok" class="flex items-center gap-2 text-sm cursor-pointer transition-colors duration-200" style="color:var(--muted)"
+               onmouseover="this.style.color='var(--forest)'" onmouseout="this.style.color='var(--muted)'">
+                Fedezze fel kínálatunkat
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <div class="mt-20 pt-12 grid grid-cols-3 gap-8" style="border-top:1px solid var(--border)">
+            <div>
+                <p class="font-display font-light" style="font-size:2.5rem;color:var(--forest)">8+</p>
+                <p class="text-xs uppercase tracking-widest mt-1" style="color:var(--muted)">Éve a szakmában</p>
+            </div>
+            <div>
+                <p class="font-display font-light" style="font-size:2.5rem;color:var(--forest)">1200+</p>
+                <p class="text-xs uppercase tracking-widest mt-1" style="color:var(--muted)">Elégedett vendég</p>
+            </div>
+            <div>
+                <p class="font-display font-light" style="font-size:2.5rem;color:var(--forest)">6</p>
+                <p class="text-xs uppercase tracking-widest mt-1" style="color:var(--muted)">Masszázsfajta</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2" style="color:var(--muted)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="animate-bounce" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════ SERVICES ═══════════════════════════ -->
+<section id="szolgaltatasok" class="py-24 md:py-32" style="background:var(--sage-light)">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="mb-16 reveal">
+            <p class="label mb-4">Kínálatunk</p>
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <h2 class="font-display font-light leading-tight" style="font-size:clamp(2.5rem,6vw,3.75rem);color:var(--forest)">Masszázs<br>szolgáltatások</h2>
+                <p class="text-sm leading-relaxed max-w-sm" style="color:var(--muted)">Minden kezelés egyedi igényekre szabva, képzett masszőr kézségeivel.</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            <!-- card macro: icon · title · desc · duration -->
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Svéd masszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Klasszikus, teljes testre kiterjedő masszázs, amely oldja az izomfeszültséget és javítja a vérkeringést. Ideális kezdők és rendszeres vendégek számára.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">60 / 90 perc</p>
+            </div>
+
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal" style="transition-delay:.08s">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Relaxáló masszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Lágyan áramló mozdulatok, melyek mély ellazulást és belső nyugalmat hoznak. Tökéletes stressz és kimerültség esetén.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">60 perc</p>
+            </div>
+
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal" style="transition-delay:.16s">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Mélyszöveti masszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Erőteljesebb nyomással dolgozó technika, amely a mélyebb izomrétegeket célozza. Hatékony krónikus fájdalom és izomgörcs esetén.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">60 perc</p>
+            </div>
+
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal" style="transition-delay:.24s">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Sport masszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Sportolóknak és aktív életmódot folytatóknak ajánlott. Segít az edzés utáni regenerációban és megelőzi a sportsérüléseket.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">60 perc</p>
+            </div>
+
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal" style="transition-delay:.32s">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="17" r="3"/><circle cx="7" cy="7" r="3"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Nyak- és válmasszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Célzott kezelés az ülő munkát végzők számára. Oldja a nyak, váll és fej feszültségét, enyhíti a fejfájást és a migrént.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">30 perc</p>
+            </div>
+
+            <div class="service-card bg-white rounded-2xl p-8 cursor-default reveal" style="transition-delay:.4s">
+                <div class="w-11 h-11 rounded-xl flex items-center justify-center mb-6" style="background:var(--sage-mist);color:var(--sage)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <h3 class="font-display text-2xl font-medium mb-3" style="color:var(--forest)">Talpmasszázs</h3>
+                <p class="text-sm leading-relaxed" style="color:var(--muted)">Reflexológiai alapú talpmasszázs, amely a belső szervek reflexpontjain keresztül hat az egész szervezetre. Mély ellazulást nyújt.</p>
+                <p class="mt-6 text-xs font-medium uppercase tracking-wider" style="color:var(--sage)">45 perc</p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+<section id="rolunk" class="py-24 md:py-32" style="background:var(--cream)">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+
+            <!-- Image -->
+            <div class="reveal order-2 lg:order-1">
+                <div class="relative">
+                    <img
+                        src="https://images.unsplash.com/photo-1600334129128-685c5582fd35?w=800&q=80"
+                        alt="Masszőr kezelés közben"
+                        class="rounded-2xl w-full object-cover"
+                        style="height:480px"
+                        loading="lazy"
+                    >
+                    <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-lg" style="max-width:220px">
+                        <p class="font-display font-light leading-snug" style="font-size:1.35rem;color:var(--sage)">„Minden érintés egy ígéret."</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text -->
+            <div class="reveal order-1 lg:order-2">
+                <p class="label mb-6">Rólunk</p>
+                <h2 class="font-display font-light leading-tight mb-8" style="font-size:clamp(2.5rem,5vw,3.75rem);color:var(--forest)">
+                    A gondoskodás<br>a szívünk ügye.
+                </h2>
+                <div class="space-y-5 text-sm leading-relaxed" style="color:var(--muted)">
+                    <p>A <strong style="color:var(--forest);font-weight:500">Csend Masszázs</strong> szalonja 2016 óta várja vendégeit Zalaegerszeg belvárosában. Alapítónk, <strong style="color:var(--forest);font-weight:500">Kovács Réka</strong> – okleveles masszőr és relaxációs terapeuta – több mint 8 éves tapasztalattal dolgozik a szakmában.</p>
+                    <p>Hiszünk abban, hogy a fizikai és mentális egyensúly egymástól elválaszthatatlan. Kezeléseink során nem csupán az izmokat lazítjuk, hanem az egész embert kezeljük – időt adva a feltöltődésre és az elcsendesedésre.</p>
+                    <p>Szalonunk barátságos, nyugodt légkörű, ahol minden vendéget egyéni figyelemmel és gondoskodással fogadunk.</p>
+                </div>
+
+                <div class="mt-10 grid grid-cols-2 gap-4">
+                    <div class="rounded-xl p-5" style="background:var(--sage-light)">
+                        <p class="font-display font-light" style="font-size:1.8rem;color:var(--sage)">OKJ</p>
+                        <p class="text-xs mt-1" style="color:var(--muted)">Okleveles masszőr képesítés</p>
+                    </div>
+                    <div class="rounded-xl p-5" style="background:var(--sage-light)">
+                        <p class="font-display font-light" style="font-size:1.8rem;color:var(--sage)">2016</p>
+                        <p class="text-xs mt-1" style="color:var(--muted)">Alapítva Zalaegerszegen</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════ PRICING ═══════════════════════════ -->
+<section id="arak" class="py-24 md:py-32" style="background:var(--forest)">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="mb-16 reveal">
+            <p class="label mb-4" style="color:var(--sage-mid)">Áraink</p>
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <h2 class="font-display font-light text-white leading-tight" style="font-size:clamp(2.5rem,6vw,3.75rem)">Átlátható<br>árazás</h2>
+                <p class="text-sm leading-relaxed max-w-sm" style="color:rgba(255,255,255,.45)">Az árak az aktuális kezelés díját tartalmazzák. Bérlet és ajándékutalvány is elérhető.</p>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="rounded-2xl overflow-hidden reveal" style="border:1px solid rgba(255,255,255,.1)">
+
+            <!-- Header row (desktop only) -->
+            <div class="hidden md:grid grid-cols-4 px-8 py-4 text-xs uppercase tracking-widest" style="color:rgba(255,255,255,.3);border-bottom:1px solid rgba(255,255,255,.1)">
+                <span>Kezelés</span><span>Időtartam</span><span>Leírás</span><span class="text-right">Ár</span>
+            </div>
+
+            <div style="divide-color:rgba(255,255,255,.08)">
+                <!-- rows -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Svéd masszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">60 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Egész testre, klasszikus</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">8 000 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Svéd masszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">90 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Egész testre, kiterjesztett</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">11 000 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Relaxáló masszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">60 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Mély ellazulás, stressz oldás</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">8 500 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Mélyszöveti masszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">60 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Krónikus feszültség, izomgörcs</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">9 000 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Sport masszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">60 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Regeneráció, sérülésmegelőzés</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">9 500 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" style="border-bottom:1px solid rgba(255,255,255,.08)" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Nyak- és válmasszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">30 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Irodai dolgozóknak, fejfájás ellen</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">4 500 Ft</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-1 px-8 py-5 cursor-default transition-colors duration-150" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background=''">
+                    <p class="font-medium text-white">Talpmasszázs</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.45)">45 perc</p>
+                    <p class="text-sm" style="color:rgba(255,255,255,.3)">Reflexológia, belső egyensúly</p>
+                    <p class="text-right font-display text-xl" style="color:var(--sage-mid)">6 000 Ft</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gift card note -->
+        <div class="mt-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between p-6 rounded-2xl reveal" style="border:1px solid rgba(255,255,255,.1)">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(74,103,65,.25);color:var(--sage-mid)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+                </div>
+                <div>
+                    <p class="text-sm font-medium text-white">Ajándékutalvány</p>
+                    <p class="text-xs mt-0.5" style="color:rgba(255,255,255,.35)">Tökéletes meglepetés szeretteinek</p>
+                </div>
+            </div>
+            <a href="#kapcsolat" class="text-sm flex items-center gap-2 whitespace-nowrap cursor-pointer transition-colors duration-200" style="color:var(--sage-mid)"
+               onmouseover="this.style.color='white'" onmouseout="this.style.color='var(--sage-mid)'">
+                Érdeklődjön
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════ GALLERY ═══════════════════════════ -->
+<section id="galeria" class="py-24 md:py-32" style="background:var(--cream)">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="mb-16 reveal">
+            <p class="label mb-4">Galéria</p>
+            <h2 class="font-display font-light leading-tight" style="font-size:clamp(2.5rem,6vw,3.75rem);color:var(--forest)">Szalonunk<br>világa</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="gal-item rounded-2xl col-span-2 md:col-span-1 reveal" style="height:300px">
+                <img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&q=80" alt="Masszázsszoba" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+            <div class="gal-item rounded-2xl reveal" style="height:300px;transition-delay:.08s">
+                <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&q=80" alt="Relaxáló kezelés" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+            <div class="gal-item rounded-2xl reveal" style="height:300px;transition-delay:.16s">
+                <img src="https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&q=80" alt="Masszázs asztal" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+            <div class="gal-item rounded-2xl reveal" style="height:300px;transition-delay:.24s">
+                <img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&q=80" alt="Kezelés közben" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+            <div class="gal-item rounded-2xl col-span-2 md:col-span-1 reveal" style="height:300px;transition-delay:.32s">
+                <img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&q=80" alt="Szalon légköre" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+            <div class="gal-item rounded-2xl reveal" style="height:300px;transition-delay:.4s">
+                <img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&q=80" alt="Kellékeink" class="w-full h-full object-cover rounded-2xl" loading="lazy">
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
+<section id="kapcsolat" class="py-24 md:py-32" style="background:var(--sage-light)">
+    <div class="max-w-6xl mx-auto px-6">
+
+        <div class="mb-16 reveal">
+            <p class="label mb-4">Kapcsolat</p>
+            <h2 class="font-display font-light leading-tight" style="font-size:clamp(2.5rem,6vw,3.75rem);color:var(--forest)">Foglaljon<br>időpontot</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+
+            <!-- Info -->
+            <div class="reveal space-y-8">
+
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0" style="color:var(--sage)">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-1" style="color:var(--forest)">Cím</p>
+                        <p class="text-sm leading-relaxed" style="color:var(--muted)">8900 Zalaegerszeg<br>Széchenyi tér 8., fszt. 2.</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0" style="color:var(--sage)">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-1" style="color:var(--forest)">Telefon</p>
+                        <a href="tel:+3692555123" class="text-sm transition-colors duration-200" style="color:var(--muted)"
+                           onmouseover="this.style.color='var(--sage)'" onmouseout="this.style.color='var(--muted)'">+36 92 555 123</a>
+                        <p class="text-xs mt-1" style="color:var(--muted)">Hívható: H–P 9:00–19:00</p>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0" style="color:var(--sage)">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-1" style="color:var(--forest)">E-mail</p>
+                        <a href="mailto:info@csendmasszazs.hu" class="text-sm transition-colors duration-200" style="color:var(--muted)"
+                           onmouseover="this.style.color='var(--sage)'" onmouseout="this.style.color='var(--muted)'">info@csendmasszazs.hu</a>
+                    </div>
+                </div>
+
+                <div class="flex items-start gap-5">
+                    <div class="w-12 h-12 rounded-xl bg-white flex items-center justify-center shrink-0" style="color:var(--sage)">
+                        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    </div>
+                    <div>
+                        <p class="font-medium mb-3" style="color:var(--forest)">Nyitvatartás</p>
+                        <div class="space-y-2 text-sm" style="color:var(--muted)">
+                            <div class="flex justify-between gap-10"><span>Hétfő – Péntek</span><span class="font-medium" style="color:var(--forest)">9:00 – 19:00</span></div>
+                            <div class="flex justify-between gap-10"><span>Szombat</span><span class="font-medium" style="color:var(--forest)">9:00 – 14:00</span></div>
+                            <div class="flex justify-between gap-10"><span>Vasárnap</span><span>Zárva</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile: call button / Desktop: plain number display -->
+                <a id="call-cta" href="tel:+3692555123"
+                   class="inline-flex items-center gap-3 text-sm font-medium text-white px-7 py-4 rounded-full cursor-pointer transition-colors duration-200"
+                   style="background:var(--sage)"
+                   onmouseover="this.style.background='var(--forest)'"
+                   onmouseout="this.style.background='var(--sage)'">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    <span id="call-cta-label">Hívjon most</span>
+                </a>
+            </div>
+
+            <!-- Map -->
+            <div class="reveal rounded-2xl overflow-hidden shadow-sm" style="height:460px;border:1px solid var(--border)">
+                <iframe
+                    src="https://maps.google.com/maps?q=Zalaegerszeg+Sz%C3%A9chenyi+t%C3%A9r&output=embed&z=15"
+                    width="100%" height="100%"
+                    style="border:0"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Csend Masszázs helyszíne Zalaegerszegen"
+                ></iframe>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</main>
+
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer class="py-10" style="background:var(--forest)">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-5">
+        <div class="flex items-center gap-3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8AA882" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+            <span class="font-display text-lg font-medium text-white">Csend Masszázs</span>
+        </div>
+        <p class="text-xs" style="color:rgba(255,255,255,.28)">© 2024 Csend Masszázs · 8900 Zalaegerszeg · Minden jog fenntartva</p>
+        <a href="#fooldal" class="text-xs cursor-pointer transition-colors duration-200" style="color:rgba(255,255,255,.35)"
+           onmouseover="this.style.color='rgba(255,255,255,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Vissza a tetejére ↑</a>
+    </div>
+</footer>
+
+
+<script>
+    // ── Mobile menu ──
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const icoMenu  = document.getElementById('ico-menu');
+    const icoClose = document.getElementById('ico-close');
+
+    burger.addEventListener('click', () => {
+        const open = !mobileMenu.classList.contains('hidden');
+        mobileMenu.classList.toggle('hidden', open);
+        icoMenu.classList.toggle('hidden', !open);
+        icoClose.classList.toggle('hidden', open);
+    });
+
+    function closeMenu() {
+        mobileMenu.classList.add('hidden');
+        icoMenu.classList.remove('hidden');
+        icoClose.classList.add('hidden');
+    }
+
+    // ── Navbar scroll ──
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    // ── Call CTA: show number on desktop, keep tel: link on mobile ──
+    const callCta = document.getElementById('call-cta');
+    const callLabel = document.getElementById('call-cta-label');
+    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+        // Desktop: remove the link behaviour, just display the number
+        callCta.removeAttribute('href');
+        callCta.style.cursor = 'default';
+        callCta.onmouseover = null;
+        callCta.onmouseout  = null;
+        callCta.style.background = 'var(--sage-mist)';
+        callCta.style.color = 'var(--forest)';
+        callLabel.textContent = '+36 92 555 123';
+    }
+
+    // ── Scroll reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
